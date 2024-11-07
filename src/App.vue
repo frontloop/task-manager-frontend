@@ -5,7 +5,7 @@ import type { Task } from 'src/common/types/task'
 import { ref } from 'vue'
 
 const taskEditorOpen = ref<boolean>(true)
-const editedTask = ref<Task>( {id: null, name: ''} )
+const editedTask = ref<Task>( {id: -1, name: ''} )
 </script>
 
 <template>
