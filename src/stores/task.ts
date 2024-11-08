@@ -1,46 +1,63 @@
-import { TaskBuilder } from 'src/common/builders/task.builder'
-import { TaskClient } from 'src/api/TaskClient'
-import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
+
+import type { Task } from '@/common/types/task'
+import { Priority } from '@/common/types/task'
+import { TaskClient } from '@/api/TaskClient'
+import { TaskBuilder } from '@/common/builders/task.builder'
 
 export const useTaskStore = defineStore('task', () => {
-  const count = ref(0)
-  const taskClient = new TaskClient()
+    const task = ref<Task>()
+    const taskList = ref<Array<Task>>([])
+    const taskClient: TaskClient = new TaskClient()
 
-  async function get(id) {
-    try {
-        const response = await taskClient.get(id)
-        messauftrag.value = MessauftragBuilder.create(response)
-
-        let res:
-            | BlobMessauftrag
-            | {
-                  error: string
-              } = { error: 'Could not get Blob' }
+    async function get(id: number): Promise<Task | null> {
         try {
-            res = await blobClient.getJSON<BlobMessauftrag>(blobKey.value)
+            const response = await taskClient.get(id)
+            task.value = TaskBuilder.create(response)
+            return task.value
         } catch (e) {
-            console.log('blob e', e)
+            return null
         }
-        if (!res || (res.error && res.error == 'NOT_FOUND_ERROR')) {
-            blobExistsOnServer.value = false
-            currentBlob.value = BlobBuilder.createMessauftragBlob()
-            return messauftrag.value
-        }
-
-        blobExistsOnServer.value = true
-        currentBlob.value = BlobBuilder.createMessauftragBlob(res)
-        messauftrag.value = MessauftragBuilder.fromBlob(
-            currentBlob.value.messauftrag,
-            messauftrag.value,
-            currentBlob.value.updateDateTime,
-        )
-
-        return task.value
-    } catch (e) {
-        return null
     }
-  }
 
-  return { count, doubleCount, increment }
+    async function getAll() {
+        taskClient.getAll().then((list: Task[]) => {
+            taskList.value = list
+          })
+    }
+
+    const save = async (id: Number, taskToSave: Task) => {
+        try {
+            const dto = TaskBuilder.toDto(taskToSave)
+            const response = await taskClient.save(id, dto)
+            if (!response || response == null) throw new Error('Task konnte nicht gespeichert werden')
+
+            task.value = TaskBuilder.create(response)
+
+            return true
+        } catch (error) {
+            return false
+        }
+    }
+
+    const create = async (taskToSave: Task) => {
+        try {
+            const dto = TaskBuilder.toDto(taskToSave)
+            const response = await taskClient.create(taskToSave)
+            if (!response || response == null) throw new Error('Task konnte nicht angelegt werden')
+
+            task.value = TaskBuilder.create(response)
+            
+                return true
+        } catch (error) {
+            return false
+        }
+    }
+
+
+    return {
+        task,
+        taskList,
+    }
 })

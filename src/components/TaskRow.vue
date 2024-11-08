@@ -1,11 +1,17 @@
 <template>
     <div class="item">
         <h3>{{ task.name }}</h3>
+        <p>
+        <div>Done: {{ task.done }}</div>
+        <div>Created: {{ task.created }}</div>
+        <div>Priority: {{ task.priority }}</div>
+        <button @click="">edit</button>
+        </p>
     </div>
 </template>
 
 <script setup lang="ts">
-import type { Task } from '../common/types/task'
+import type { Task } from '@/common/types/task'
     const props = defineProps<{
         task: Task
     }>()
@@ -14,8 +20,6 @@ import type { Task } from '../common/types/task'
 <style>
 .item {
     margin-top: 2rem;
-    display: flex;
-    position: relative;
 }
 
 h3 {
@@ -23,5 +27,9 @@ h3 {
   font-weight: 500;
   margin-bottom: 0.4rem;
   color: #fff;
+}
+
+.item div {
+    color: #fff;
 }
 </style>

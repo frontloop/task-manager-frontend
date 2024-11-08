@@ -8,8 +8,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { Task } from '../common/types/task'
-import { TaskClient } from '../api/TaskClient'
+import { Priority, type Task } from '@/common/types/task'
+import { TaskClient } from '@/api/TaskClient'
+import { useTaskStore } from '@/stores/task';
+
+const store = useTaskStore()
 
 const name = ref('')
 
@@ -17,10 +20,13 @@ const props = defineProps<{
         modelValue: Task
     }>()
 
+    const emit = defineEmits(['ontasksaved'])
+
 const taskClient: TaskClient = new TaskClient()
 
-const save = () => {
-    taskClient.create({name: props.modelValue.name})
+const save = async () => {
+    await taskClient.create({name: props.modelValue.name, done: false, priority: Priority.NORMAL})
+    emit('ontasksaved')
 }
 </script>
 

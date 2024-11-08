@@ -121,4 +121,4 @@ enum HttpStatusCode {
 
 }
 
-export const RestClient = new BaseClient('http://localhost:8080/api')
+export const RestClient = new BaseClient('http://localhost:8081/api')
