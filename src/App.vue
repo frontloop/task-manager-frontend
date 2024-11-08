@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import TaskList from './components/TaskList.vue'
 import TaskEditor from './components/TaskEditor.vue'
-import type { Task } from 'src/common/types/task'
+import type { Task } from './common/types/task'
 import { ref } from 'vue'
 
 const taskEditorOpen = ref<boolean>(true)
-const editedTask = ref<Task>( {id: -1, name: ''} )
+const taskEdit = ref<Task>( {id: -1, name: ''} )
 </script>
 
 <template>
       <TaskList />
       <div class="editor">
-        <TaskEditor v-if="taskEditorOpen" :model-value="editedTask" />
+        <TaskEditor v-if="taskEditorOpen" :model-value="taskEdit" />
       </div>
 </template>
 

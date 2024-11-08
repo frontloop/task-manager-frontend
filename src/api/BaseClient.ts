@@ -27,7 +27,7 @@ class Response<T> {
 }
 
 export class BaseClient {
-    private baseUrl?: string
+    private baseUrl?: string = 'localhost:8080/api'
     private token?: string
     private tokenType?: string
 
@@ -121,4 +121,4 @@ enum HttpStatusCode {
 
 }
 
-export const RestClient = new BaseClient()
+export const RestClient = new BaseClient('http://localhost:8080/api')
