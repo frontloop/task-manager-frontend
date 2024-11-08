@@ -2,19 +2,33 @@
     <div class="item">
         <h3>{{ task.name }}</h3>
         <p>
-        <div>Done: {{ task.done }}</div>
-        <div>Created: {{ task.created }}</div>
+        <div>Done: {{ task.done }} </div>
+        <div>Created: {{ displayDate(task.created) }}</div>
         <div>Priority: {{ task.priority }}</div>
-        <button @click="">edit</button>
+        <button @click="editTask">edit</button>
         </p>
     </div>
 </template>
 
 <script setup lang="ts">
 import type { Task } from '@/common/types/task'
-    const props = defineProps<{
-        task: Task
-    }>()
+import { useTaskStore } from '@/stores/task';
+
+const taskStore = useTaskStore()
+
+const props = defineProps<{ task: Task }>()
+
+const editTask = () => {
+    taskStore.task = taskStore.setEditTask(props.task)
+    taskStore.taskEditorOpen = true
+}
+
+const displayDate = (created: string) => {
+    const date = new Date(created).toLocaleDateString();
+    const time = new Date(created).toLocaleTimeString();
+    return date + ' um ' + time
+}
+
 </script>
 
 <style>

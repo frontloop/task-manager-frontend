@@ -1,16 +1,10 @@
 import type { Entity } from 'src/common/types/entity'
 
-export interface Task extends Entity {
+export interface Task {
+    id: number,
     name: string
     done: boolean
     created: string
-    priority: Priority
-}
-
-export interface TaskDto {
-    id?: number
-    name: string
-    done: boolean
     priority: Priority
 }
 

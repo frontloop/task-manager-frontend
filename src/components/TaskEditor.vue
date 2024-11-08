@@ -1,32 +1,41 @@
 <template>
     <div class="surface">
         <p class="label">Name</p>
-        <input v-model="modelValue.name" placeholder="edit me" class="name-input" />
-        <p><button @click="save">save</button></p>
+        <input v-model="taskStore.task.name" placeholder="edit me" class="name-input" />
+        <div>Done: <input type="checkbox" v-model="taskStore.task.done"></div>
+        <div>
+            Priority: 
+            <input type="radio" name="priority" id="priority_low" value="LOW" style="accent-color: green;" v-model="taskStore.task.priority">
+            <label for="one">Low</label>
+            <input type="radio" name="priority" id="priority_normal" value="NORMAL" style="accent-color: blue;" v-model="taskStore.task.priority">
+            <label for="one">Normal</label>
+            <input type="radio" name="priority" id="priority_urgent" value="URGENT" style="accent-color: red;" v-model="taskStore.task.priority">
+            <label for="one">Urgent</label>
+        </div>
+        <p><button @click="save">save</button> <button @click="cancel">cancel</button></p>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Priority, type Task } from '@/common/types/task'
-import { TaskClient } from '@/api/TaskClient'
+import { Priority } from '@/common/types/task';
 import { useTaskStore } from '@/stores/task';
 
-const store = useTaskStore()
+const taskStore = useTaskStore()
 
-const name = ref('')
-
-const props = defineProps<{
-        modelValue: Task
-    }>()
-
-    const emit = defineEmits(['ontasksaved'])
-
-const taskClient: TaskClient = new TaskClient()
+const emit = defineEmits(['ontasksaved'])
 
 const save = async () => {
-    await taskClient.create({name: props.modelValue.name, done: false, priority: Priority.NORMAL})
+    if (taskStore.task.id > -1) {
+        await taskStore.save();
+    } else {
+        await taskStore.create()
+    }
     emit('ontasksaved')
+}
+
+const cancel = () => {
+    taskStore.resetEditedTask()
+    taskStore.taskEditorOpen = false
 }
 </script>
 
@@ -35,6 +44,10 @@ const save = async () => {
     position: absolute;
     top: 300px;
     left: 500px;
+}
+
+.surface div {
+    color: white;
 }
 
 .label {

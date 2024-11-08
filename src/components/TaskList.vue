@@ -1,16 +1,14 @@
 <template>
     <div class="list">
-        <TaskRow v-for="task in taskList" :task="task"/>
+        <TaskRow v-for="task in taskStore.taskList" :task="task" />
     </div>
   </template>
 
 <script setup lang="ts">
 import TaskRow from './TaskRow.vue'
-import type { Task } from '../common/types/task'
+import { useTaskStore } from '@/stores/task';
 
-const props = defineProps<{
-        taskList?: Task[]
-    }>()
+const taskStore = useTaskStore()
 
 </script>
   

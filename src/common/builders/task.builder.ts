@@ -4,6 +4,9 @@ export class TaskBuilder {
         return {
             id: data.id,
             name: data.name,
+            done: data.done,
+            created: data.created,
+            priority: data.priority,
         }
     }
 
@@ -11,14 +14,9 @@ export class TaskBuilder {
         return {
             id: data.id ?? 0,
             name: data.name,
-        }
-    }
-
-    static create = (raw: Partial<Task> = {}): Task => {
-        return {
-            ...raw,
-            id: raw.id ?? 0,
-            name: raw.name ?? '',
+            done: data.done,
+            created: data.created,
+            priority: data.priority,
         }
     }
 }
