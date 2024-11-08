@@ -6,6 +6,7 @@
         <div>Created: {{ displayDate(task.created) }}</div>
         <div>Priority: {{ task.priority }}</div>
         <button @click="editTask">edit</button>
+        <button @click="deleteTask">delete</button>
         </p>
     </div>
 </template>

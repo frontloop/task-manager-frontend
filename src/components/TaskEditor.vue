@@ -12,12 +12,14 @@
             <input type="radio" name="priority" id="priority_urgent" value="URGENT" style="accent-color: red;" v-model="taskStore.task.priority">
             <label for="one">Urgent</label>
         </div>
-        <p><button @click="save">save</button> <button @click="cancel">cancel</button></p>
+        <p>
+            <button @click="save">save</button>
+            <button @click="cancel">cancel</button>
+        </p>
     </div>
 </template>
 
 <script setup lang="ts">
-import { Priority } from '@/common/types/task';
 import { useTaskStore } from '@/stores/task';
 
 const taskStore = useTaskStore()

@@ -50,6 +50,10 @@ export const useTaskStore = defineStore('task', () => {
         }
     }
 
+    const deleteTask = async (id: Number) => {
+        //
+    }
+
     const setEditTask = (original: Task) => {
         return { id: original.id, name: original.name, done: original.done, created: original.created, priority: original.priority }
     }
@@ -67,5 +71,6 @@ export const useTaskStore = defineStore('task', () => {
         getAll,
         resetEditedTask,
         setEditTask,
+        deleteTask,
     }
 })
