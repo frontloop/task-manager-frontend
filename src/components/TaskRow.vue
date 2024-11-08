@@ -1,8 +1,15 @@
 <template>
     <div class="item">
-        <h3>Task name</h3>
+        <h3>{{ task.name }}</h3>
     </div>
 </template>
+
+<script setup lang="ts">
+import type { Task } from '../common/types/task'
+    const props = defineProps<{
+        task: Task
+    }>()
+</script>
 
 <style>
 .item {

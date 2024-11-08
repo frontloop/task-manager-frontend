@@ -4,14 +4,14 @@ import TaskEditor from './components/TaskEditor.vue'
 import type { Task } from './common/types/task'
 import { ref } from 'vue'
 
-const taskEditorOpen = ref<boolean>(true)
+const taskEditorOpen = ref<boolean>(false)
 const taskEdit = ref<Task>( {id: -1, name: ''} )
 </script>
 
 <template>
       <TaskList />
-      <div class="editor">
-        <TaskEditor v-if="taskEditorOpen" :model-value="taskEdit" />
+      <div v-if="taskEditorOpen" class="editor">
+        <TaskEditor :model-value="taskEdit" />
       </div>
 </template>
 
